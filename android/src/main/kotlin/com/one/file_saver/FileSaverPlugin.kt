@@ -6,6 +6,7 @@ import androidx.annotation.NonNull
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
+import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -28,10 +29,9 @@ class FileSaverPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
         }
         pluginBinding = flutterPluginBinding
         val messenger = pluginBinding?.binaryMessenger
-        if(messenger!=null) {
-            methodChannel = MethodChannel(messenger, "file_saver")
-            methodChannel?.setMethodCallHandler(this)
-        }
+	messenger = messenger as BinaryMessenger
+        methodChannel = MethodChannel(messenger, "file_saver")
+        methodChannel?.setMethodCallHandler(this)
     }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
